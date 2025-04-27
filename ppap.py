@@ -3,15 +3,17 @@
 import os
 import random
 import secrets
+import string
 import sys
 
 import pyminizip
 
 FILENAME_MAX_SUFFIX = 100
 COMPRESS_LEVEL = 9
-PASSWORD_MAX_LENGTH = 99
-PASSWORD_ILLEGAL_CHAR = set([ord(c) for c in "'\""])
-PASSWORD_CHARSET = "".join(chr(c) for c in range(0x21, 0x7f) if c not in PASSWORD_ILLEGAL_CHAR)
+PASSWORD_MAX_LENGTH = 64
+all_chars = string.ascii_letters + string.digits + string.punctuation
+PASSWORD_UNSAFE_CHARS = set(" \"'\\/:;*?<>|")
+PASSWORD_CHARSET = "".join(c for c in all_chars if c not in PASSWORD_UNSAFE_CHARS)
 MESSAGE_TEMPLATE = "generated password is {}"
 
 def create_text_file(text: str, content: str) -> None:
@@ -44,7 +46,7 @@ def main(contents: list[str]) -> None:
             break
         zip = f"{root}-{n}.zip"
         txt = f"{root}-{n}-password.txt"
-    password: str = generate_password(random.randint(PASSWORD_MAX_LENGTH // 2, PASSWORD_MAX_LENGTH))
+    password: str = generate_password(random.randint(PASSWORD_MAX_LENGTH * 3 // 4, PASSWORD_MAX_LENGTH))
     encrypt_file(zip, password, contents)
     create_text_file(txt, MESSAGE_TEMPLATE.format(password))
 

@@ -1,0 +1,20 @@
+version = 1
+revision = 2
+requires-python = ">=3.13"
+
+[[package]]
+name = "ppap"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "pyminizip" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pyminizip", specifier = ">=0.2.6" }]
+
+[[package]]
+name = "pyminizip"
+version = "0.2.6"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/1b/b4/b5584325a03acfbca05922700ab9195b5875a936dc23960224087088a409/pyminizip-0.2.6.tar.gz", hash = "sha256:0a954dd2a65fd72c8b827b83fb806fb4f301075a6ec43e207d3345ab15843a7a", size = 261210, upload_time = "2021-12-21T02:12:19.134Z" }

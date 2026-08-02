@@ -31,18 +31,22 @@ jobs:
       - name: Create ZIP package
         shell: pwsh
         run: |
-          $dir = "ppap-${{ github.ref_name }}"
+          $dir = Join-Path "dist" "ppap-${{ github.ref_name }}"
+          $zip = Join-Path "dist" "ppap-${{ github.ref_name }}-windows-x64.zip"
           $files = @(
             "dist\ppap.exe",
             "LICENSE",
             "README.md"
           )
-          Remove-Item -Path dist\$dir -Recurse -Force
-          New-Item -Path dist\$dir -ItemType Directory | Out-Null
-          $files | Copy-Item -Destination { Join-Path dist\$dir $_.Name }
+          Remove-Item -Path $dir -Recurse -Force -ErrorAction Ignore
+          Remove-Item -Path $zip -Force -ErrorAction Ignore
+          New-Item -Path $dir -ItemType Directory | Out-Null
+          foreach ($file in $files) {
+            Copy-Item -Path $file -Destination (Join-Path $dir (Split-Path $file -Leaf))
+          }
           Compress-Archive `
-            -Path dist\$dir `
-            -DestinationPath "dist\ppap-${{ github.ref_name }}-windows-x64.zip"
+            -Path $dir `
+            -DestinationPath $zip
 
       - name: Generate SHA256
         shell: pwsh

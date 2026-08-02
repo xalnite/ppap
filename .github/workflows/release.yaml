@@ -31,7 +31,7 @@ jobs:
       - name: Create ZIP package
         shell: pwsh
         run: |
-          $dir = ppap-${{ github.ref_name }}
+          $dir = "ppap-${{ github.ref_name }}"
           $files = @(
             "dist\ppap.exe",
             "LICENSE",
@@ -42,7 +42,7 @@ jobs:
           $files | Copy-Item -Destination { Join-Path dist\$dir $_.Name }
           Compress-Archive `
             -Path dist\$dir `
-            -DestinationPath dist\ppap-${{ github.ref_name }}-windows-x64.zip
+            -DestinationPath "dist\ppap-${{ github.ref_name }}-windows-x64.zip"
 
       - name: Generate SHA256
         shell: pwsh
@@ -55,7 +55,7 @@ jobs:
             $hash = (Get-FileHash $_ -Algorithm SHA256).Hash.ToLower()
             "$hash *$(Split-Path $_ -Leaf)"
           } |
-          Set-Content dist/SHA256SUMS.txt
+          Set-Content "dist/SHA256SUMS.txt"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

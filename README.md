@@ -1,6 +1,6 @@
 # NAME
 
-ppap -- A helper tool for creating password-protected ZIP files.
+<img src="ppap.png" alt="ppap icon" width="32" align="absmiddle"> ppap -- A helper tool for creating password-protected ZIP files.
 
 # SYNOPSIS
 
